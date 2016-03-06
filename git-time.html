@@ -19,18 +19,34 @@ Polymer({
   properties: {
     url: String,
     time: {
-      computed: "getTime(gitlog)"
+      computed: "getTime(gitlog)",
       notify: true
     }
   },
   getTime: function(gitlog) {
     var time
-    //  get all the times of The Commitments
-    //  work out how long people have been working on that particular Project
+    var listOfUsersCommits = {}
+    var commitList = gitlog.split('\x00')
+    for (var index = 0; index < commitList.length; ++index) {
+      var re = /^committer[^<]*<([^>]*)> ([0-9]*)/gm
+      var m;
+ 
+      while ((m = re.exec(commitList[index])) !== null) {
+        if (m.index === re.lastIndex) {
+          re.lastIndex++;
+        }
+        if (listOfUsersCommits[m[1]]) {
+          listOfUsersCommits[m[1]].push(m[2])
+        } else {
+          listOfUsersCommits[m[1]] = [m[2]]
+        } 
+      }
+    }    
+    
+    for (committer in listOfUsersCommits) {
+      listOfUsersCommits[committer] 
+    }
     // work out the person how much time is spent on the project
-    //
-    debugger;
-     // gitlog
     return time
   }
 })
