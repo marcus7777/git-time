@@ -10,7 +10,7 @@ takes in a git log and outputs amount of time spent on a project with 15 minutes
 <dom-module id="git-time">
 <template>
 <iron-ajax auto url="{{gitLogUrl}}" handle-as="text" last-response="{{gitlog}}"></iron-ajax>
-<a title="{{title}}">{{hours}}</a>
+<a title="{{title}}">{{time}} hours</a>
 </template>
 </dom-module>
 <script>
@@ -24,7 +24,7 @@ Polymer({
     }
   },
   getTime: function(gitlog) {
-    var time
+    this.title = ''
     var listOfUsersCommits = {}
     var commitList = gitlog.split('\x00')
     for (var index = 0; index < commitList.length; ++index) {
@@ -36,18 +36,39 @@ Polymer({
           re.lastIndex++;
         }
         if (listOfUsersCommits[m[1]]) {
-          listOfUsersCommits[m[1]].push(m[2])
+          listOfUsersCommits[m[1]].push(+m[2])
         } else {
-          listOfUsersCommits[m[1]] = [m[2]]
+          listOfUsersCommits[m[1]] = [+m[2]]
         } 
       }
     }    
     
+    var time = 0
     for (committer in listOfUsersCommits) {
-      listOfUsersCommits[committer] 
+      listOfUsersCommits[committer].sort(function(a, b) {
+        return a - b
+      })
+      var startWork = 0
+      var endWork = 0
+      var userTime = 0
+      for (var indexOfCommits = 0; indexOfCommits < listOfUsersCommits[committer].length; ++indexOfCommits) {
+        if (indexOfCommits === 0 || startWork === 0) {
+          startWork = +listOfUsersCommits[committer][indexOfCommits] - (60*30)
+          endWork = +listOfUsersCommits[committer][indexOfCommits]
+        } else if (endWork > (+listOfUsersCommits[committer][indexOfCommits] - (60*60*2))){
+          endWork = +listOfUsersCommits[committer][indexOfCommits]
+        } else {
+          userTime = userTime + (endWork - startWork)
+          startWork = 0
+        }
+      }
+
+      this.title = this.title + committer + ' ' + listOfUsersCommits[committer].length  + ' commits ' + Math.round(+userTime/60/60) + ' hours \n'
+      time = time + userTime
+      userTime = 0 
     }
     // work out the person how much time is spent on the project
-    return time
+    return Math.round(time / 60 / 60)
   }
 })
 </script>
