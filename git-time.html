@@ -17,7 +17,21 @@ takes in a git log and outputs amount of time spent on a project with 15 minutes
 Polymer({
   is: "git-time",
   properties: {
-    url: {}
+    url: String,
+    time: {
+      computed: "getTime(gitlog)"
+      notify: true
+    }
+  },
+  getTime: function(gitlog) {
+    var time
+    //  get all the times of The Commitments
+    //  work out how long people have been working on that particular Project
+    // work out the person how much time is spent on the project
+    //
+    debugger;
+     // gitlog
+    return time
   }
 })
 </script>
