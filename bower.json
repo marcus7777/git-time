@@ -1,0 +1,14 @@
+{
+  "name": "git-time",
+  "version": "1.0.0",
+  "description": "# git-time\ntakes in a git log and outputs amount of time spent on a project with 15 minutes at the Beginning commit to the last commit within a 2 hour period during the time spent on project\n",
+  "main": "git-time.html",
+  "keywords": [
+    "polymer",
+    "web-components"
+  ],
+  "dependencies": {
+    "polymer": "*",
+    "iron-ajax": "PolymerElements/iron-ajax#9523d37680"
+  }
+}

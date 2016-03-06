@@ -1,0 +1,23 @@
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../polymer/polymer.html">
+<!--
+`<git-time></git-time>` # git-time
+takes in a git log and outputs amount of time spent on a project with 15 minutes at the Beginning commit to the last commit within a 2 hour period during the time spent on project
+
+@demo demo.html
+-->
+
+<dom-module id="git-time">
+<template>
+<iron-ajax auto url="{{gitLogUrl}}" handle-as="text" last-response="{{gitlog}}"></iron-ajax>
+<a title="{{title}}">{{hours}}</a>
+</template>
+</dom-module>
+<script>
+Polymer({
+  is: "git-time",
+  properties: {
+    url: {}
+  }
+})
+</script>

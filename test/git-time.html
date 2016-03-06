@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <title>git-time</title>
+    <script src="../../webcomponentsjs/webcomponents.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../test-fixture/test-fixture-mocha.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+    <link rel="import" href="../../polymer/polymer.html">
+    <link rel="import" href="../../test-fixture/test-fixture.html">
+    <link rel="import" href="../git-time.html">
+  </head>
+  <body>
+    <test-fixture id="gitTime">
+      <template>
+        <git-time></git-time> //add attributes
+      </template>
+    </test-fixture>
+    <script>
+      suite('<git-time>', function () {
+        var gitTime;
+        setup(function () {
+          gitTime = fixture('gitTime');
+        });
+        teardown(function () {
+          //...
+        });
+        suite('basic usage', function () {
+          test('can be triggered with space', function(done) {
+            gitTime.addEventListener('keydown', function() {
+              done()
+            })
+            MockInteractions.pressSpace(gitTime)
+          })
+          test('can be clicked', function(done) {
+            gitTime.addEventListener('click', function() {
+              done()
+            })
+            MockInteractions.tap(gitTime)
+          })
+        })
+      })
+    </script>
+  </body>
+</html>
