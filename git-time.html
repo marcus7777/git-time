@@ -71,7 +71,7 @@ Polymer({
         }
       }
 
-      titleList.push(listOfUsersCommits[committer].length  + ' commits by ' + committer + ' ≈' + Math.round(+userTime/60/60*10)/10 + ' hours, last 1 '+ moment(endWork *1000).from() )
+      titleList.push(listOfUsersCommits[committer].length  + ' commits by ' + committer + ' ≈' + Math.round(+userTime/60/60*10)/10 + ' hours, last '+ moment(endWork *1000).from() )
       
       time = time + userTime
       userTime = 0 
@@ -81,7 +81,7 @@ Polymer({
     return Math.round(time/60/60*10)/10
   },
   getTitle: function(titleList) {
-    return titleList.sort(function (as, bs){
+    return titleList.sort(function (bs, as){
       var a, b, a1, b1, i= 0, n, L,
       rx=/(\.\d+)|(\d+(\.\d+)?)|([^\d.]+)|(\.\D+)|(\.$)/g;
       if(as=== bs) return 0;
