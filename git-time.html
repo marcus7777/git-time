@@ -71,7 +71,7 @@ Polymer({
         }
       }
 
-      titleList.push(listOfUsersCommits[committer].length  + ' commits by ' + committer + ' ≈' + Math.round(+userTime/60/60*10)/10 + ' hours, last commit '+ moment(endWork *1000).to() )
+      titleList.push(listOfUsersCommits[committer].length  + ' commits by ' + committer + ' ≈' + Math.round(+userTime/60/60*10)/10 + ' hours, last 1 '+ moment(endWork *1000).from() )
       
       time = time + userTime
       userTime = 0 
