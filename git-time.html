@@ -24,9 +24,6 @@ Polymer({
     },
     title: {
       computed: "getTitle(titleList)"
-    },
-    titleList: {
-      value: []
     }
   },
   getTime: function(gitlog) {
@@ -50,6 +47,7 @@ Polymer({
     }    
     
     var time = 0
+    var titleList = []
     for (committer in listOfUsersCommits) {
       listOfUsersCommits[committer].sort(function(a, b) {
         return a - b
@@ -73,11 +71,12 @@ Polymer({
         }
       }
 
-      this.titleList.push(listOfUsersCommits[committer].length  + ' commits by ' + committer + ' ≈' + Math.round(+userTime/60/60*10)/10 + ' hours, last commit '+ moment(endWork *1000) )
+      titleList.push(listOfUsersCommits[committer].length  + ' commits by ' + committer + ' ≈' + Math.round(+userTime/60/60*10)/10 + ' hours, last commit '+ moment(endWork *1000) )
       
       time = time + userTime
       userTime = 0 
     }
+    this.set('titleList',titleList)
     // work out the person how much time is spent on the project
     return Math.round(time/60/60*10)/10
   },
