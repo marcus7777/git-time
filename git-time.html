@@ -20,8 +20,13 @@ Polymer({
   properties: {
     url: String,
     time: {
-      computed: "getTime(gitlog)",
-      notify: true
+      computed: "getTime(gitlog)"
+    },
+    title: {
+      computed: "getTitle(titleList)"
+    },
+    titleList: {
+      value: []
     }
   },
   getTime: function(gitlog) {
@@ -68,12 +73,18 @@ Polymer({
         }
       }
 
-      this.title = this.title + committer + ' ' + listOfUsersCommits[committer].length  + ' commits ' + Math.round(+userTime/60/60*10)/10 + ' hours last commit '+ moment(endWork *1000).toNow() +' \n'
+      this.titleList.push(committer + ' ' + listOfUsersCommits[committer].length  + ' commits, ' + Math.round(+userTime/60/60*10)/10 + ' hours, last commit '+ moment(endWork *1000) )
+      
       time = time + userTime
       userTime = 0 
     }
     // work out the person how much time is spent on the project
     return Math.round(time/60/60*10)/10
+  },
+  getTitle: function(titleList) {
+    titleList.sort(function (a,b) {
+      return 1
+    }).join(' \n')
   }
 })
 </script>
