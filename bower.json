@@ -9,6 +9,7 @@
   ],
   "dependencies": {
     "polymer": "*",
-    "iron-ajax": "PolymerElements/iron-ajax#9523d37680"
+    "iron-ajax": "PolymerElements/iron-ajax",
+    "moment-js":"marcus7777/moment-js"
   }
 }
