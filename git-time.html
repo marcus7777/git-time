@@ -28,7 +28,7 @@ Polymer({
     var listOfUsersCommits = {}
     var commitList = gitlog.split('\x00')
     for (var index = 0; index < commitList.length; ++index) {
-      var re = /^committer[^<]*<([^>]*)> ([0-9]*)/gm
+      var re = /^committer ([^<]*)<[^>]*> ([0-9]*)/gm
       var m;
  
       while ((m = re.exec(commitList[index])) !== null) {
