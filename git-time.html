@@ -51,24 +51,28 @@ Polymer({
       var startWork = 0
       var endWork = 0
       var userTime = 0
+
       for (var indexOfCommits = 0; indexOfCommits < listOfUsersCommits[committer].length; ++indexOfCommits) {
-        if (indexOfCommits === 0 || startWork === 0) {
-          startWork = +listOfUsersCommits[committer][indexOfCommits] - (60*30)
-          endWork = +listOfUsersCommits[committer][indexOfCommits]
-        } else if (endWork > (+listOfUsersCommits[committer][indexOfCommits] - (60*60*2))){
+        if (startWork === 0) {
+          userTime = userTime + (60*30)
+          startWork = +listOfUsersCommits[committer][indexOfCommits]
           endWork = +listOfUsersCommits[committer][indexOfCommits]
         } else {
-          userTime = userTime + (endWork - startWork)
-          startWork = 0
+          if (endWork > (+listOfUsersCommits[committer][indexOfCommits] - (60*60*2.5))){
+            endWork = +listOfUsersCommits[committer][indexOfCommits]
+          } else {
+            userTime = userTime + (endWork - startWork)
+            startWork = 0
+          }
         }
       }
 
-      this.title = this.title + committer + ' ' + listOfUsersCommits[committer].length  + ' commits ' + Math.round(+userTime/60/60) + ' hours \n'
+      this.title = this.title + committer + ' ' + listOfUsersCommits[committer].length  + ' commits ' + Math.round(+userTime/60/60*10)/10 + ' hours \n'
       time = time + userTime
       userTime = 0 
     }
     // work out the person how much time is spent on the project
-    return Math.round(time / 60 / 60)
+    return Math.round(time/60/60*10)/10
   }
 })
 </script>
