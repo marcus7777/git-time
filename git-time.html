@@ -67,7 +67,7 @@ Polymer({
         }
       }
 
-      this.title = this.title + committer + ' ' + listOfUsersCommits[committer].length  + ' commits ' + Math.round(+userTime/60/60*10)/10 + ' hours last commit '+ endWork +' \n'
+      this.title = this.title + committer + ' ' + listOfUsersCommits[committer].length  + ' commits ' + Math.round(+userTime/60/60*10)/10 + ' hours last commit '+ new Date(endWork*1000) +' \n'
       time = time + userTime
       userTime = 0 
     }
