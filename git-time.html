@@ -20,10 +20,12 @@ Polymer({
   properties: {
     url: String,
     time: {
-      computed: "getTime(gitlog)"
+      computed: "getTime(gitlog)",
+      notify: true
     },
     title: {
-      computed: "getTitle(titleList)"
+      computed: "getTitle(titleList)",
+      notify: true
     }
   },
   getTime: function(gitlog) {
