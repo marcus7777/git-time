@@ -28,7 +28,7 @@ Polymer({
       notify: true
     }
   },
-  getTime: function(gitlog) {
+  getTime: function(gitlog) {if (gitlog) {
     this.title = ''
     var listOfUsersCommits = {}
     var commitList = gitlog.split('\x00')
@@ -81,8 +81,8 @@ Polymer({
     this.set('titleList',titleList)
     // work out the person how much time is spent on the project
     return Math.round(time/60/60*10)/10
-  },
-  getTitle: function(titleList) {
+  }},
+  getTitle: function(titleList) { if (titleList) {
     return titleList.sort(function (bs, as){
       var a, b, a1, b1, i= 0, n, L,
       rx=/(\.\d+)|(\d+(\.\d+)?)|([^\d.]+)|(\.\D+)|(\.$)/g;
@@ -102,6 +102,6 @@ Polymer({
       }
       return b[i]? -1:0;
     }).join('\n')
-  }
+  }}
 })
 </script>
