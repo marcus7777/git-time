@@ -9,10 +9,17 @@ takes in a git log and outputs amount of time spent on a project with 15 minutes
 -->
 
 <dom-module id="git-time">
-<template>
-<iron-ajax auto url="{{gitLogUrl}}" handle-as="text" last-response="{{gitlog}}"></iron-ajax>
-<a title="{{title}}">{{time}} hours</a>
-</template>
+  <template>
+    <iron-ajax auto url="{{gitLogUrl}}" handle-as="text" last-response="{{gitlog}}"></iron-ajax>
+    <a title="{{title}}">
+      {{time}} hours
+      <template is="dom-if" if="{{thisWeek}}">
+        <br /> {{thisWeek}} 
+        <br /> this week Thank You
+      </template>
+    </a>
+    
+  </template>
 </dom-module>
 <script>
 Polymer({
@@ -25,6 +32,9 @@ Polymer({
     },
     title: {
       computed: "getTitle(titleList)",
+      notify: true
+    },
+    thisWeek: {
       notify: true
     }
   },
@@ -49,6 +59,7 @@ Polymer({
     }    
     
     var time = 0
+    var timeThisWeek = 0
     var titleList = []
     for (committer in listOfUsersCommits) {
       listOfUsersCommits[committer].sort(function(a, b) {
@@ -57,28 +68,32 @@ Polymer({
       var startWork = 0
       var endWork = 0
       var userTime = 0
+      var userTimeThisWeek = 0
 
       for (var indexOfCommits = 0; indexOfCommits < listOfUsersCommits[committer].length; ++indexOfCommits) {
         if (startWork === 0) {
-          userTime = userTime + (60*30)
-          startWork = +listOfUsersCommits[committer][indexOfCommits]
+          startWork = +listOfUsersCommits[committer][indexOfCommits] - (60*30)
           endWork = +listOfUsersCommits[committer][indexOfCommits]
         } else {
           if (endWork > (+listOfUsersCommits[committer][indexOfCommits] - (60*60*2.5))){
             endWork = +listOfUsersCommits[committer][indexOfCommits]
           } else {
             userTime = userTime + (endWork - startWork)
+            if (moment().subtract(7, 'days').isBefore(endWork * 1000)) {
+              userTimeThisWeek = userTimeThisWeek + (endWork - startWork)
+            } 
             startWork = 0
           }
         }
       }
 
-      titleList.push(listOfUsersCommits[committer].length  + ' commits by ' + committer + ' ≈' + Math.round(+userTime/60/60*10)/10 + ' hours, last '+ moment(endWork *1000).from() )
-      
+      titleList.push(listOfUsersCommits[committer].length  + ' commits by ' + committer + ' at least ' + Math.round(+userTime/60/60*10)/10 + ' hours, last ' + moment(endWork *1000).from() )
+      timeThisWeek = timeThisWeek + userTimeThisWeek
       time = time + userTime
       userTime = 0 
     }
     this.set('titleList',titleList)
+    this.set('thisWeek',Math.round(timeThisWeek/60/60*10)/10 )
     // work out the person how much time is spent on the project
     return Math.round(time/60/60*10)/10
   }},
