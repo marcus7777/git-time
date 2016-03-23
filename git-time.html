@@ -12,7 +12,7 @@ takes in a git log and outputs amount of time spent on a project with 15 minutes
   <template>
     <iron-ajax auto url="{{gitLogUrl}}" handle-as="text" last-response="{{gitlog}}"></iron-ajax>
     <a title="{{title}}">
-      {{time}} hours
+      {{time}}
       <template is="dom-if" if="{{thisWeek}}">
         <br /> {{thisWeek}} this week 
         <br /> Thank You !
@@ -95,7 +95,16 @@ Polymer({
     this.set('titleList',titleList)
     this.set('thisWeek',Math.round(timeThisWeek/60/60*10)/10 )
     // work out the person how much time is spent on the project
-    return Math.round(time/60/60*10)/10
+    var outTime = Math.round(time/60/60*10)/10
+    if (outTime < 40) { // < a week
+      return outTime + ' hours'
+    } else if (outTime < (40 * (52 / 12))) { // < a mouth
+      return Math.round(outTime * 4) / 10 + ' weeks'
+    } else if (outTime < (40 * 52)) { // < a year
+      return Math.round(outTime * 4 * (52 / 12)) / 10 + ' mouths'
+    } else { // > a year
+      return Math.round(outTime * 4 * 52) / 10 + ' years'
+    }
   }},
   getTitle: function(titleList) { if (titleList) {
     return titleList.sort(function (bs, as){
