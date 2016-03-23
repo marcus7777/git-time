@@ -99,11 +99,11 @@ Polymer({
     if (outTime < 40) { // < a week
       return outTime + ' hours'
     } else if (outTime < (40 * (52 / 12))) { // < a mouth
-      return Math.round(outTime * 4) / 10 + ' weeks'
+      return Math.round(outTime / 4) / 10 + ' weeks'
     } else if (outTime < (40 * 52)) { // < a year
-      return Math.round(outTime * 4 * (52 / 12)) / 10 + ' mouths'
+      return Math.round(outTime / 4 * (52 / 12)) / 10 + ' mouths'
     } else { // > a year
-      return Math.round(outTime * 4 * 52) / 10 + ' years'
+      return Math.round(outTime / 4 * 52) / 10 + ' years'
     }
   }},
   getTitle: function(titleList) { if (titleList) {
