@@ -96,14 +96,18 @@ Polymer({
     this.set('thisWeek',Math.round(timeThisWeek/60/60*10)/10 )
     // work out the person how much time is spent on the project
     var outTime = Math.round(time/60/60*10)/10
-    if (outTime < 40) { // < a week
+    var workingWeek = 36
+    var workingMonth = 20 * workingWeek
+    var workingYear = workingMonth * 12
+    
+    if (outTime < workingWeek) { // < a week
       return outTime + ' hours'
-    } else if (outTime < (40 * (52 / 12))) { // < a mouth
-      return Math.round(outTime / 4) / 10 + ' weeks'
-    } else if (outTime < (40 * 52)) { // < a year
-      return Math.round(outTime / 4 * (52 / 12)) / 10 + ' mouths'
+    } else if (outTime < workingMonth) { // < a month
+      return Math.round(outTime / workingWeek * 10) / 10 + ' weeks'
+    } else if (outTime < workingYear) { // < a year
+      return Math.round(outTime / workingMonth * 10) / 10 + ' months'
     } else { // > a year
-      return Math.round(outTime / 4 * 52) / 10 + ' years'
+      return Math.round(outTime / workingYear * 10) / 10 + ' years'
     }
   }},
   getTitle: function(titleList) { if (titleList) {
